@@ -89,8 +89,8 @@
 
 <div id="login">
   <h1>🔒 请输入访问密码</h1>
-  <input id="user" placeholder="账号（仅英文）" autocomplete="off">
-  <input id="pass" type="password" placeholder="密码">
+  <input id="user" placeholder="账号（仅英文小写）" autocomplete="off">
+  <input id="pass" type="password" placeholder="密码（8位）">
   <div id="err"></div>
   <button onclick="doLogin()">进入</button>
 </div>
@@ -117,10 +117,10 @@ const ACCOUNT = { user: "linkai", pass: "20060911" };
 
 /* ========== 2. 两把锁配置 ========== */
 const LOCK_PASSWORD = "757";
-const LOCK_FROM_INDEX = 7;
+const LOCK_FROM_INDEX = 8;
 
 const LOCK2_PASSWORD = "1185";
-const LOCK2_FROM_INDEX = 10;
+const LOCK2_FROM_INDEX = 12;
 
 let unlocked = false;
 let unlocked2 = false;
@@ -152,12 +152,20 @@ const DEFAULT_POSTS = [
     text: "开始喜欢在天台上待着。午休的时候一个人上去，看云，听楼下操场的声音，反而觉得安心。\n\n有次文昌偷偷跟上来，什么也没说，就坐我旁边一起看。过了好久他说：“哥，这儿挺好的。”那天我们俩都没怎么讲话，但不尴尬。\n\n我一直在想那天办公室的事。想相信罗老师，可那个学姐的表情，我忘不掉。"
   },
   {
+    date: "2023-05-15",
+    text: "今天想起以前的事。\n\n初中的时候，有个校霸总堵我。我从来没跟家里说。\n\n后来文昌知道了。他一个人去找那人，把人揍了一顿。回来的时候手背全是血，还笑着跟我说：“哥，以后有人欺负你，告诉我。”\n\n他比我小两岁。\n\n那天晚上我躲在被子里哭了很久。这事我一直没跟他说过。"
+  },
+  {
     date: "2023-09-12",
     text: "听说那个学姐考上了国内最顶尖的生物大学。\n\n消息传回来的时候，办公室里都在说罗老师教得好。我站在走廊上，第一次那么清楚地感觉到一种东西——羡慕。原来跟着罗老师，真的可以走到那种地方去。\n\n有人说，李恩以前是「寄望实验室」的人。那是罗老师自己带的一个小项目，只收他认可的学生，生物组里也就高年段那么几个人能进去。\n\n那天晚上我翻来覆去睡不着，甚至开始想：那盒牛奶，会不会真的是我误会了？"
   },
   {
     date: "2023-11-03",
     text: "今天的消息，我到现在手还是凉的。\n\n那个学姐——李恩，出事了。\n\n她伤了一个人，然后从楼上跳了下去。人没死，但摔得很重，听说下半辈子都站不起来了。\n\n新闻里只写了短短几行，没有提罗老师，也没有提什么牛奶。可我脑子里全是那天办公室的画面：她脸色发白，手在抖，还是把那盒东西喝了下去。\n\n我谁都没说。文昌问我怎么了一整天不说话，我说没事，就是累。\n\n我不知道该告诉谁，也不知道说了有没有用。"
+  },
+  {
+    date: "2023-11-15",
+    text: "文昌今天问我，最近怎么老走神。\n\n我说没事。\n\n他不知道李恩的事。不知道那盒牛奶。不知道那天我在办公室门口看见了什么。\n\n我也不打算让他知道。\n\n他那么开朗，不该沾上这些东西。"
   },
   {
     date: "2023-12-31",
@@ -186,6 +194,10 @@ const DEFAULT_POSTS = [
   {
     date: "2024-06-09",
     text: "实 验 记 录\n\n第 4 天\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常\n\n一 切 正 常"
+  },
+  {
+    date: "2024-06-12",
+    text: "文昌今天来实验室楼下等我。\n\n他一看见我就说：“哥，你是不是瘦了。”\n\n我说没有。\n\n他盯着我看了几秒，没再问。回去的路上一直没怎么说话。\n\n我不能让他知道。\n\n不能让他知道我记不住事。不能让他知道镜子里那个在笑的人不是我。\n\n他要是知道了，一定会去找罗老师。\n\n不能让他去。"
   },
   {
     date: "2024-06-18",
@@ -227,7 +239,7 @@ function render() {
   }
 
   feed.innerHTML = posts.map(function(p, i) {
-    /* 第一把锁：索引 7 ~ 9 */
+    /* 第一把锁：索引 8 ~ 11 */
     if (!unlocked && i >= LOCK_FROM_INDEX && i < LOCK2_FROM_INDEX) {
       if (i === LOCK_FROM_INDEX) {
         return '<div class="post">' +
@@ -245,7 +257,7 @@ function render() {
       return '';
     }
 
-    /* 第二把锁：索引 >= 10 */
+    /* 第二把锁：索引 >= 12 */
     if (!unlocked2 && i >= LOCK2_FROM_INDEX) {
       if (i === LOCK2_FROM_INDEX) {
         return '<div class="post">' +
